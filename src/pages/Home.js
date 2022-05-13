@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
+import "../css/home.css";
 
 export default function Home() {
   const [albuns, setAlbuns] = useState([]);
@@ -15,7 +16,7 @@ export default function Home() {
       });
       setAlbuns(res.data.data);
     };
-    get().finally(()=> {
+    get().finally(() => {
       setLoaded(true);
     });
   }, []);
@@ -23,11 +24,11 @@ export default function Home() {
   const convertDuration = (duration) => {
     const newDuration = new Date(duration * 1000).toISOString().substr(11, 8);
     return newDuration;
-  }
+  };
 
   return loaded ? (
-    <>
-          <ul>
+    <div className="div-content font-custom">
+<ul>
             {albuns.map((album) => (
               <li key={album.id}>
                 {album.name}
@@ -40,8 +41,7 @@ export default function Home() {
               </li>
             ))}
           </ul>
-        </>
- 
+    </div>
   ) : (
     <>Carregando</>
   );

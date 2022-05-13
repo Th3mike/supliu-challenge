@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap');
+html {
+    background: url(../assets//background.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   }
+   body {
+    font-family: 'Slabo 27px', serif;
+   }
+   a {
+    text-decoration: none;
+   }
+   li {
+    list-style: none;
+   }
+   

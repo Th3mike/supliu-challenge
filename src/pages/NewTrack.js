@@ -29,9 +29,9 @@ export default function NewTracks() {
   }, []);
 
   const trackSchema = yup.object().shape({
-    duration: yup.number().required('Sua mãe é minha').typeError('Amount must be a number'),
+    duration: yup.number().required('Requirido').typeError('Por favor insira somente números!'),
     title: yup.string().required('Requirido'),
-    number: yup.number().required('Requirido').typeError('Amount must be a number').min(10, "Minimo é 10").max(150, "máximo é 150")
+    number: yup.number().required('Requirido').typeError('Por favor insira somente números!').min(1, "Minimo é 01").max(30, "máximo é 30")
   })
 
   const { register, handleSubmit, watch, formState } = useForm({

@@ -1,0 +1,13 @@
+.font-custom {
+    color: white;
+    font-size: 24px;
+}
+
+.div-content {
+    margin: 0 auto;
+    max-width: 1250px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.815);
+    border-radius: 3px;
+    margin-top: 2.5%;
+}
