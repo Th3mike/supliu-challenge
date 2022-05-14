@@ -3,11 +3,10 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    margin-top: 2.5%;
-    background-color: rgba(0, 0, 0, 0.815);
 }
 
 .a-link {
+    background-color: rgba(0, 0, 0, 0.815);
     float: left;
     color: #fbff008c;
     text-align: center;

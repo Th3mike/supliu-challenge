@@ -25,8 +25,14 @@ const Valor = styled.div`
   margin-bottom: 10%;
 `;
 
+const DivResult = styled.div`
+  display: flex;
+  margin-left: 40px;
+`;
+
 export default function Home() {
   const [albuns, setAlbuns] = useState([]);
+  const [query, setQuery] = useState("");
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -57,9 +63,48 @@ export default function Home() {
       </div>
       <div className="search-content">
         <form>
-          <label className="label-home">Digite uma palavra chave</label>
-          <input placeholder="Min" type="text" className="input-home"/>
-          <button type="submit">Procurar</button>
+          <label className="label-home">
+            Digite uma palavra chave para pesquisar um álbum
+          </label>
+          <input
+            placeholder="Min"
+            type="text"
+            className="input-home"
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <button type="submit" className="home-button">
+            Procurar
+          </button>
+          {query.length > 0 && (
+            <DivResult>
+              <p>
+                <strong>Resultado da pesquisa:</strong>
+              </p>
+            </DivResult>
+          )}
+          {albuns
+            .filter((album) => {
+              if (query === "") {
+                return album;
+              } else if (
+                album.name.toLowerCase().includes(query.toLowerCase())
+              ) {
+                return album;
+              }
+            })
+            .map((album, index) => (
+              <div key={index}>
+                {query.length > 0 && (
+                  <ul>
+                    <li>
+                      <strong>
+                        ◦ {album.name}, {album.year}
+                      </strong>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            ))}
         </form>
       </div>
       {albuns.map((album) => (
@@ -68,7 +113,10 @@ export default function Home() {
             {album.name}, {album.year}
           </h1>
           {album.tracks.map((track) => (
-            <div style={{ display: "flex" }} key={track.id}>
+            <div
+              style={{ display: "flex", backgroundColor: "#f8f7f7" }}
+              key={track.id}
+            >
               <Campo>
                 <strong>Nº</strong>
                 <Valor>{track.number}</Valor>

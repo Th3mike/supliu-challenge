@@ -46,13 +46,13 @@ input {
 }
 
 .search-content input,
-button {
+.home-button {
     margin-top: 1%;
     height: 50px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    font-size: 22px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-size: 18px;
     margin-bottom: 50px;
 }
 
@@ -60,15 +60,11 @@ button {
     padding-left: 10px;
 }
 
-.input-home:focus {
-    padding-left: 20px;
-}
-
 .input-home:focus::placeholder {
     color: transparent;
 }
 
-.search-content button {
+.home-button {
     color: white;
     background-color: rgb(12, 136, 216);
     width: 15%;
@@ -76,8 +72,12 @@ button {
 }
 
 @media screen and (max-width: 600px) {
-    button {
+    .home-button {
         font-size: 16px;
     }
-
+}
+@media screen and (max-width: 500px) {
+    .home-button {
+        font-size: 12px;
+    }
 }
