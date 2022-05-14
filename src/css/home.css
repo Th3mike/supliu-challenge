@@ -56,15 +56,15 @@ button {
     margin-bottom: 50px;
 }
 
-input::placeholder {
+.label-home::placeholder {
     padding-left: 10px;
 }
 
-input:focus {
+.input-home:focus {
     padding-left: 20px;
 }
 
-input:focus::placeholder {
+.input-home:focus::placeholder {
     color: transparent;
 }
 

@@ -57,8 +57,8 @@ export default function Home() {
       </div>
       <div className="search-content">
         <form>
-          <label>Digite uma palavra chave</label>
-          <input placeholder="Min" type="text" />
+          <label className="label-home">Digite uma palavra chave</label>
+          <input placeholder="Min" type="text" className="input-home"/>
           <button type="submit">Procurar</button>
         </form>
       </div>
