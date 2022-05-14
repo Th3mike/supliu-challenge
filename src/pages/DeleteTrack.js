@@ -33,7 +33,7 @@ export default function DeleteTrack() {
         const { status } = res;
 
         if (status === 200) {
-          alert(`Faixa ${id + "-" + name} deletado!`);
+          alert(`Faixa deletada!`);
           setResponse(res);
         }
       });
@@ -61,8 +61,11 @@ export default function DeleteTrack() {
               </>
             ) : (
               <>
-              <br></br>
-              Não há faixas neste album</>
+                <br></br>
+                <p style={{ color: "red", fontSize: "26px" }}>
+                  <strong>Não há faixas neste album </strong>
+                </p>
+              </>
             )}
           </li>
         ))}

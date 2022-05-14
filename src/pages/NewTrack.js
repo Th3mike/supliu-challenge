@@ -29,13 +29,21 @@ export default function NewTracks() {
   }, []);
 
   const trackSchema = yup.object().shape({
-    duration: yup.number().required('Requirido').typeError('Por favor insira somente números!'),
-    title: yup.string().required('Requirido'),
-    number: yup.number().required('Requirido').typeError('Por favor insira somente números!').min(1, "Minimo é 01").max(30, "máximo é 30")
-  })
+    duration: yup
+      .number()
+      .required("Requirido")
+      .typeError("Por favor insira somente números!"),
+    title: yup.string().required("Requirido"),
+    number: yup
+      .number()
+      .required("Requirido")
+      .typeError("Por favor insira somente números!")
+      .min(1, "Minimo é 01")
+      .max(30, "máximo é 30"),
+  });
 
   const { register, handleSubmit, watch, formState } = useForm({
-    resolver: yupResolver(trackSchema)
+    resolver: yupResolver(trackSchema),
   });
 
   const { errors } = formState;
@@ -51,14 +59,25 @@ export default function NewTracks() {
       number: data.number,
     };
 
-    await api.post("track", track, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "maarcio_lacerda@hotmail.com",
-      },
-    }).catch((res)=> {
-      setResponse(res.response.data);
-    });
+    const res = await api
+      .post("track", track, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "maarcio_lacerda@hotmail.com",
+        },
+      })
+      .catch((res) => {
+        setResponse(res.response.data);
+      })
+      .then((res) => {
+        const { status } = res;
+
+        if (status === 200) {
+          alert("Faixa adicionada!");
+          setResponse(res);
+        }
+      });
+    setResponse(res);
   };
 
   return loaded ? (
@@ -83,7 +102,13 @@ export default function NewTracks() {
           register={register}
         />
 
-        <Input type="number" name="number" label="Número" errorMsg={errors.number?.message} register={register} />
+        <Input
+          type="number"
+          name="number"
+          label="Número"
+          errorMsg={errors.number?.message}
+          register={register}
+        />
 
         <Input
           type="number"
@@ -94,7 +119,11 @@ export default function NewTracks() {
         />
         <button type="submit"> Enviar </button>
       </form>
-      { response && response.error }
+      <p style={{color: "red", fontSize: "26px"}}>
+        <strong>
+      {response && response.error}
+      </strong>
+      </p>
     </>
   ) : (
     <>Carregando</>
