@@ -1,13 +1,83 @@
 .font-custom {
-    color: white;
+    color: black;
     font-size: 24px;
 }
 
+/* parte da div com todo o conteudo */
 .div-content {
     margin: 0 auto;
     max-width: 1250px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.815);
+    background-color: rgba(255, 255, 255, 0.658);
     border-radius: 3px;
     margin-top: 2.5%;
+}
+
+/* Parte da div com logo */
+.logo-content {
+    background-color: rgba(245, 245, 245, 0.795);
+}
+
+.logo {
+    margin: 1.5%;
+}
+
+.logo-content h1 {
+    color: black;
+    float: right;
+    margin-top: 2.5%;
+    margin-right: 1.5%;
+}
+
+/* Parte da div com input */
+.search-content {
+    margin-top: 2.5%;
+}
+
+.search-content label {
+    opacity: 90%;
+    font-weight: bolder;
+}
+
+.search-content label,
+input {
+    width: 80%;
+    margin-left: 2%;
+}
+
+.search-content input,
+button {
+    margin-top: 1%;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    font-size: 22px;
+    margin-bottom: 50px;
+}
+
+input::placeholder {
+    padding-left: 10px;
+}
+
+input:focus {
+    padding-left: 20px;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+.search-content button {
+    color: white;
+    background-color: rgb(12, 136, 216);
+    width: 15%;
+    margin-left: 0.5%;
+}
+
+@media screen and (max-width: 600px) {
+    button {
+        font-size: 16px;
+    }
+
 }
