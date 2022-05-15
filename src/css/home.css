@@ -1,5 +1,5 @@
 .font-custom {
-    color: black;
+    color: white;
     font-size: 24px;
 }
 
@@ -8,14 +8,16 @@
     margin: 0 auto;
     max-width: 1250px;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.658);
+    background-color: rgba(0, 0, 0, 0.815);
     border-radius: 3px;
     margin-top: 2.5%;
+    -webkit-box-shadow: 5px 5px 20px 10px #000000;
+    box-shadow: 5px 5px 20px 10px #000000;
 }
 
 /* Parte da div com logo */
 .logo-content {
-    background-color: rgba(245, 245, 245, 0.795);
+    background-color: white;
 }
 
 .logo {
@@ -40,12 +42,12 @@
 }
 
 .search-content label,
-input {
+.input-home {
     width: 80%;
     margin-left: 2%;
 }
 
-.search-content input,
+.search-content .input-home,
 .home-button {
     margin-top: 1%;
     height: 50px;
@@ -74,8 +76,19 @@ input {
 @media screen and (max-width: 600px) {
     .home-button {
         font-size: 16px;
+        width: 100%;
+    }
+
+    .font-custom {
+        font-size: 16px;
+    }
+
+    .search-content label,
+    .input-home {
+        width: 95%;
     }
 }
+
 @media screen and (max-width: 500px) {
     .home-button {
         font-size: 12px;

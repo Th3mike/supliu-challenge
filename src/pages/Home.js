@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import api from "../services/api";
 import "../css/home.css";
 import logo from "../assets/logo.png";
@@ -34,6 +34,8 @@ export default function Home() {
   const [albuns, setAlbuns] = useState([]);
   const [query, setQuery] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const elementRef = useRef(null);
+  const scrollToElement = () => elementRef.current.scrollIntoView();
 
   useEffect(() => {
     const get = async () => {
@@ -62,9 +64,9 @@ export default function Home() {
         <h1>Discografia</h1>
       </div>
       <div className="search-content">
-        <form>
+        <>
           <label className="label-home">
-            Digite uma palavra chave para pesquisar um álbum
+            Digite uma palavra chave para pesquisar algum álbum
           </label>
           <input
             placeholder="Min"
@@ -96,7 +98,7 @@ export default function Home() {
               <div key={index}>
                 {query.length > 0 && (
                   <ul>
-                    <li>
+                    <li onClick={scrollToElement} style={{cursor: "pointer"}}>
                       <strong>
                         ◦ {album.name}, {album.year}
                       </strong>
@@ -105,7 +107,7 @@ export default function Home() {
                 )}
               </div>
             ))}
-        </form>
+        </>
       </div>
       {albuns.map((album) => (
         <DivMain key={album.id}>
@@ -114,13 +116,15 @@ export default function Home() {
           </h1>
           {album.tracks.map((track) => (
             <div
-              style={{ display: "flex", backgroundColor: "#f8f7f7" }}
+              ref={elementRef}
+              style={{ display: "flex", backgroundColor: "#00000" }}
               key={track.id}
             >
               <Campo>
                 <strong>Nº</strong>
                 <Valor>{track.number}</Valor>
               </Campo>
+
               <Campo>
                 <strong>Faixa</strong>
                 <Valor>{track.title}</Valor>

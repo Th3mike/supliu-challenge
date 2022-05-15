@@ -1,5 +1,26 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
+import styled from "styled-components";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+
+const DivMain = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.815);
+  border-radius: 3px;
+  margin-top: 2.5%;
+  -webkit-box-shadow: 5px 5px 20px 10px #000000;
+  box-shadow: 5px 5px 20px 10px #000000;
+  color: white;
+`;
+
+const List = styled.li`
+  display: flex;
+  flex-direction: column;
+  font-size: 26px;
+`;
 
 export default function DeleteTrack() {
   const [albuns, setAlbuns] = useState([]);
@@ -21,7 +42,7 @@ export default function DeleteTrack() {
     });
   }, [response]);
 
-  const deleteTrack = async (id, name) => {
+  const deleteTrack = async (id) => {
     const res = await api
       .delete(`track/${id}`, {
         headers: {
@@ -41,36 +62,47 @@ export default function DeleteTrack() {
   };
 
   return loaded ? (
-    <>
+    <DivMain>
       <ul>
         {albuns.map((album) => (
-          <li key={album.id}>
-            {album.name}
+          <List key={album.id}>
+            <p>
+              <strong>Álbum: {album.name}</strong>
+            </p>
             {album.tracks.length > 0 ? (
               <>
-                <ul>
+                <ul style={{ display: "flex" }}>
                   {album.tracks.map((track) => (
-                    <li key={track.id}>
-                      {track.title}
-                      <button onClick={() => deleteTrack(track.id)}>
-                        Remover
-                      </button>
-                    </li>
+                    <List key={track.id}>
+                      <p>
+                        {" "}
+                        <IoIosRemoveCircleOutline
+                          onClick={() => deleteTrack(track.id)}
+                          style={{
+                            fontSize: "26px",
+                            cursor: "pointer",
+                            marginRight: "5px",
+                            color: "yellow",
+                          }}
+                        ></IoIosRemoveCircleOutline>
+                        Faixa: {track.title}
+                      </p>
+                    </List>
                   ))}
                 </ul>
               </>
             ) : (
               <>
                 <br></br>
-                <p style={{ color: "red", fontSize: "26px" }}>
-                  <strong>Não há faixas neste album </strong>
-                </p>
+                <li style={{ color: "red", fontSize: "26px" }}>
+                  <strong>Não há faixas no álbum: {album.name} </strong>
+                </li>
               </>
             )}
-          </li>
+          </List>
         ))}
       </ul>
-    </>
+    </DivMain>
   ) : (
     <>Carregando</>
   );
