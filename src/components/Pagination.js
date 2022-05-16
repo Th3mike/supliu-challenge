@@ -46,11 +46,11 @@ export default function Pagination({ handlePageClick, pageCount }) {
   return (
     <ContainerPagination>
       <ReactPaginate
-        nextLabel="next >"
+        nextLabel="→"
         onPageChange={handlePageClick}
         pageRangeDisplayed={5}
         pageCount={pageCount}
-        previousLabel="< previous"
+        previousLabel="←"
         renderOnZeroPageCount={null}
         containerClassName={"pagination"}
         subContainerClassName={"pages pagination"}
