@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../services/api";
 import Input from "../components/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styled from "styled-components";
-import LoadSpinner from "../components/LoadSpinner"
+import LoadSpinner from "../components/LoadSpinner";
 
 const DivMain = styled.div`
   display: flex;
@@ -80,8 +80,22 @@ export default function NewAlbum() {
           setResponse(res);
         }
       });
-    setResponse(res);
   };
+
+  useEffect(() => {
+    const get = async () => {
+      const res = await api.get("album", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "maarcio_lacerda@hotmail.com",
+        },
+      });
+      setResponse(res?.data.data);
+    };
+    get().finally(() => {
+      setLoaded(true);
+    });
+  }, []);
 
   return loaded ? (
     <DivMain>
