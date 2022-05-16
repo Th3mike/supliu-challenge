@@ -6,6 +6,7 @@ import Select from "../components/Select";
 import styled from "styled-components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import LoadSpinner from "../components/LoadSpinner"
 
 const DivMain = styled.div`
   display: flex;
@@ -34,6 +35,11 @@ const Button = styled.button`
   &:hover {
     background-color: rgb(12, 80, 216);
   }
+`;
+
+const Error = styled.span`
+  color: yellow;
+  justify-content: center;
 `;
 
 export default function NewTracks() {
@@ -68,7 +74,7 @@ export default function NewTracks() {
       .required("Requirido")
       .typeError("Por favor insira somente números!")
       .min(1, "Minimo é 01")
-      .max(30, "máximo é 100"),
+      .max(10000, "máximo é 10000"),
   });
 
   const { register, handleSubmit, watch, formState } = useForm({
@@ -147,12 +153,10 @@ export default function NewTracks() {
           register={register}
         />
         <Button type="submit"> Enviar </Button>
+        <Error>{response && response.error}</Error>
       </form>
-      <p>
-        <strong>{response && response.error}</strong>
-      </p>
     </DivMain>
   ) : (
-    <>Carregando</>
+    <LoadSpinner></LoadSpinner>
   );
 }

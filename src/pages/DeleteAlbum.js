@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import api from "../services/api";
 import styled from "styled-components";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
+import Pagination from "../components/Pagination";
+import LoadSpinner from "../components/LoadSpinner"
 
 const DivMain = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin: 0 auto;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.815);
@@ -27,6 +30,8 @@ export default function DeleteAlbum() {
   const [albuns, setAlbuns] = useState([]);
   const [response, setResponse] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const get = async () => {
@@ -35,13 +40,24 @@ export default function DeleteAlbum() {
           "Content-Type": "application/json",
           Authorization: "maarcio_lacerda@hotmail.com",
         },
+        params: {
+          page: currentPage,
+        },
       });
+      const total_pages = parseInt(
+        Math.ceil(res.data.total / res.data.per_page)
+      );
+      if (pageCount !== total_pages) setPageCount(total_pages);
       setAlbuns(res.data.data);
     };
     get().finally(() => {
       setLoaded(true);
     });
-  }, [response]);
+  }, [response, currentPage]);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected + 1);
+  };
 
   const deleteAlbum = async (id, name) => {
     const res = await api
@@ -82,12 +98,13 @@ export default function DeleteAlbum() {
               </List>
             ))}
           </ul>
+          <Pagination handlePageClick={handlePageClick} pageCount={pageCount} />
         </>
       ) : (
         <p style={{ color: "red", fontSize: "26px" }}>Não há albuns por aqui</p>
       )}
     </DivMain>
   ) : (
-    <>Carregando</>
+    <LoadSpinner></LoadSpinner>
   );
 }

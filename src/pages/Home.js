@@ -4,6 +4,8 @@ import api from "../services/api";
 import "../css/home.css";
 import logo from "../assets/logo.png";
 import styled from "styled-components";
+import Pagination from "../components/Pagination";
+import LoadSpinner from "../components/LoadSpinner";
 
 const DivMain = styled.div`
   width: 100%;
@@ -36,6 +38,8 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const elementRef = useRef(null);
   const scrollToElement = () => elementRef.current.scrollIntoView();
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const get = async () => {
@@ -44,13 +48,24 @@ export default function Home() {
           "Content-Type": "application/json",
           Authorization: "maarcio_lacerda@hotmail.com",
         },
+        params: {
+          page: currentPage,
+        },
       });
       setAlbuns(res.data.data);
+      const total_pages = parseInt(
+        Math.ceil(res.data.total / res.data.per_page)
+      );
+      if (pageCount !== total_pages) setPageCount(total_pages);
     };
     get().finally(() => {
       setLoaded(true);
     });
-  }, []);
+  }, [currentPage]);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected + 1);
+  };
 
   const convertDuration = (duration) => {
     const newDuration = new Date(duration * 1000).toISOString().substr(11, 8);
@@ -98,7 +113,7 @@ export default function Home() {
               <div key={index}>
                 {query.length > 0 && (
                   <ul>
-                    <li onClick={scrollToElement} style={{cursor: "pointer"}}>
+                    <li onClick={scrollToElement} style={{ cursor: "pointer" }}>
                       <strong>
                         ◦ {album.name}, {album.year}
                       </strong>
@@ -114,35 +129,49 @@ export default function Home() {
           <h1 style={{ margin: "1.5%" }}>
             {album.name}, {album.year}
           </h1>
-          {album.tracks.map((track) => (
-            <div
-              ref={elementRef}
-              style={{ display: "flex", backgroundColor: "#00000" }}
-              key={track.id}
-            >
-              <Campo>
-                <strong>Nº</strong>
-                <Valor>{track.number}</Valor>
-              </Campo>
+          {album?.tracks?.length <= 0 ? (
+            <Campo style={{ marginTop: "10px" }}>
+              Sem faixas em{" "}
+              <span style={{ color: "yellow" }}>
+                {album.name}, {album.year}
+              </span>
+            </Campo>
+          ) : (
+            <>
+              {album.tracks.map((track) => (
+                <div
+                  ref={elementRef}
+                  style={{ display: "flex", backgroundColor: "#00000" }}
+                  key={track.id}
+                >
+                  <Campo>
+                    <strong>Nº</strong>
+                    <Valor>{track.number}</Valor>
+                  </Campo>
 
-              <Campo>
-                <strong>Faixa</strong>
-                <Valor>{track.title}</Valor>
-              </Campo>
-              <Campo>
-                <strong>
-                  <div style={{ textAlign: "right" }}>Duração</div>
-                </strong>
-                <Valor style={{ textAlign: "right" }}>
-                  {convertDuration(track.duration)}
-                </Valor>
-              </Campo>
-            </div>
-          ))}
+                  <Campo>
+                    <strong>Faixa</strong>
+                    <Valor>{track.title}</Valor>
+                  </Campo>
+                  <Campo>
+                    <strong>
+                      <div style={{ textAlign: "right" }}>Duração</div>
+                    </strong>
+                    <Valor style={{ textAlign: "right" }}>
+                      {convertDuration(track.duration)}
+                    </Valor>
+                  </Campo>
+                </div>
+              ))}
+            </>
+          )}
         </DivMain>
       ))}
+      <div style={{display: "flex", justifyContent: "center"}}>
+      <Pagination handlePageClick={handlePageClick} pageCount={pageCount} />
+      </div>
     </div>
   ) : (
-    <>Carregando</>
+    <LoadSpinner></LoadSpinner>
   );
 }

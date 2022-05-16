@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styled from "styled-components";
+import LoadSpinner from "../components/LoadSpinner"
 
 const DivMain = styled.div`
   display: flex;
@@ -35,15 +36,21 @@ const Button = styled.button`
   }
 `;
 
+const Error = styled.span`
+  color: yellow;
+  justify-content: center;
+`;
+
 export default function NewAlbum() {
   const [response, setResponse] = useState({});
+  const [loaded, setLoaded] = useState(false);
 
   const albumSchema = yup.object().shape({
     year: yup
       .string()
       .test("len", "Exemplo: 2022", (val) => val.length === 4)
       .required("1")
-      .typeError("Amount must be a number"),
+      .typeError("Permitido apenas números"),
     name: yup.string().required("Digite o nome do álbum"),
   });
 
@@ -55,7 +62,7 @@ export default function NewAlbum() {
 
   const onSubmit = async (data) => {
     setResponse({});
-    await api
+    const res = await api
       .post("album", data, {
         headers: {
           "Content-Type": "application/json",
@@ -64,10 +71,19 @@ export default function NewAlbum() {
       })
       .catch((res) => {
         setResponse(res.response.data);
+      })
+      .then((res) => {
+        const { status } = res;
+
+        if (status === 200) {
+          alert("Álbum adicionado!");
+          setResponse(res);
+        }
       });
+    setResponse(res);
   };
 
-  return (
+  return loaded ? (
     <DivMain>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -86,8 +102,10 @@ export default function NewAlbum() {
           register={register}
         />
         <Button type="submit">Criar Álbum</Button>
+        <Error>{response && response.error}</Error>
       </form>
-      {response && response.error}
     </DivMain>
+  ) : (
+    <LoadSpinner></LoadSpinner>
   );
 }

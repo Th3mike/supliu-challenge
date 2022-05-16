@@ -11,6 +11,8 @@
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.1",
     "react-icons": "^4.3.1",
+    "react-loader-spinner": "^6.0.0-0",
+    "react-paginate": "^8.1.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "remask": "0.1.0-alpha.5",
